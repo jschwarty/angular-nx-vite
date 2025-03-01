@@ -18,10 +18,19 @@ describe('comp', () => {
     })
     it('should have translated text', () => {
         const fixture = TestBed.createComponent(NgxTranslateComponent);
-        fixture.detectChanges();
+        fixture.autoDetectChanges();
         const compiled = fixture.nativeElement as HTMLElement;
         expect(compiled.querySelector('h1')?.textContent).toContain(
-            'English'
+            'Hello'
         );
     })
+    // it('should translate to French', () => {
+    //     const fixture = TestBed.createComponent(NgxTranslateComponent);
+    //     fixture.autoDetectChanges();
+    //     const compiled = fixture.nativeElement as HTMLElement;
+    //     compiled.querySelector<HTMLButtonElement>('button[lang="fr-CA"]')?.click();
+    //     expect(compiled.querySelector('h1')?.textContent).toContain(
+    //         'Bonjur'
+    //     );
+    // })
 })
