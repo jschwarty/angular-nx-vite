@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
@@ -7,6 +7,11 @@ import { RouterModule } from '@angular/router';
   template: `<p>hello {{title}}</p>`,
   styles: [``],
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title = 'website';
+  test = signal('')
+
+  ngAfterViewInit(): void {
+    this.test.set('value')
+  }
 }

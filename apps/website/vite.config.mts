@@ -1,24 +1,29 @@
-/// <reference types="vitest" />
-
-import angular from '@analogjs/vite-plugin-angular';
-
-import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
-
+/// <reference types='vitest' />
 import { defineConfig } from 'vite';
+import { nxViteTsPaths } from '@nx/vite/plugins/nx-tsconfig-paths.plugin';
+import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
-// https://vitejs.dev/config/
-export default defineConfig(({ mode }) => {
-  return {
-    plugins: [angular(), nxViteTsPaths()],
-    test: {
-      globals: true,
-      environment: 'jsdom',
-      setupFiles: ['src/test-setup.ts'],
-      include: ['**/*.spec.ts'],
-      reporters: ['default'],
+export default defineConfig({
+  root: __dirname,
+  cacheDir: '../../node_modules/.vite/apps/website',
+  plugins: [
+    nxViteTsPaths(),
+    nxCopyAssetsPlugin(['*.md'])
+  ],
+  // Uncomment this if you are using workers.
+  // worker: {
+  //  plugins: [ nxViteTsPaths() ],
+  // },
+  test: {
+    watch: false,
+    globals: true,
+    environment: 'jsdom',
+    include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    setupFiles: ['src/test-setup.ts'],
+    reporters: ['default'],
+    coverage: {
+      reportsDirectory: '../../coverage/apps/website',
+      provider: 'v8',
     },
-    define: {
-      'import.meta.vitest': mode !== 'production',
-    },
-  };
+  },
 });
