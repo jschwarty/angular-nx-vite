@@ -1,15 +1,12 @@
-import { TestBed } from "@angular/core/testing";
+import { fakeAsync, TestBed, tick } from "@angular/core/testing";
 import { NgxTranslateComponent } from './ngxtranslate.component';
-import { TranslateModule } from "@ngx-translate/core";
+import { provideNgxTranslate } from './provide-ngx-translate';
 
 describe('comp', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [NgxTranslateComponent,
-                TranslateModule.forRoot({
-                    defaultLanguage: 'en-US'
-                })
-            ],
+            imports: [NgxTranslateComponent],
+            providers: [provideNgxTranslate()]
         }).compileComponents();
     });
     it('should have title', () => {
@@ -24,13 +21,16 @@ describe('comp', () => {
             'Hello'
         );
     })
-    // it('should translate to French', () => {
-    //     const fixture = TestBed.createComponent(NgxTranslateComponent);
-    //     fixture.autoDetectChanges();
-    //     const compiled = fixture.nativeElement as HTMLElement;
-    //     compiled.querySelector<HTMLButtonElement>('button[lang="fr-CA"]')?.click();
-    //     expect(compiled.querySelector('h1')?.textContent).toContain(
-    //         'Bonjur'
-    //     );
-    // })
+    it('should translate to French', fakeAsync(() => {
+        const fixture = TestBed.createComponent(NgxTranslateComponent);
+        fixture.autoDetectChanges();
+        const compiled = fixture.nativeElement as HTMLElement;
+        const button = compiled.querySelector<HTMLButtonElement>('button')
+        expect(button?.textContent).toBe('French')
+        button?.click();
+        tick();
+        expect(compiled.querySelector('h1')?.textContent).toContain(
+            'Bonjour'
+        );
+    }))
 })

@@ -1,10 +1,12 @@
 import { TestBed } from "@angular/core/testing";
 import { AppComponent } from './app.component'
+import { provideNgxTranslate } from './provide-ngx-translate';
 
 describe('comp', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             imports: [AppComponent],
+            providers: [provideNgxTranslate()]
         }).compileComponents();
     });
     it('should have title', () => {
